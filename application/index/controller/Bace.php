@@ -83,7 +83,7 @@ class Bace extends Controller
         //TODO:这里可以添加是否是搜索引擎蜘蛛访问
         
         //公共模板变量赋值
-        $this->assign_template();
+        $this->assignTemplate();
         
     }
     
@@ -93,8 +93,7 @@ class Bace extends Controller
      * @return void
      */
     private function initUser()
-    {
-        
+    {        
         //用户第一次进入网站，统计用户的来源，记录是否为广告投放进入站点，并记录广告的id
         if (!Session::has('user_id')) {           
             //获取投放站点的名称和广告的id
@@ -110,7 +109,7 @@ class Bace extends Controller
             visit_stats();
         }
         
-        //设置Session
+        //检查Session回话信息中是否有用户信息
         if (empty(Session::get('user_id'))) {
             //TODO:增加请求中存在cookie的情况（用户登录）            
             Session::set('user_id', 0);
@@ -147,55 +146,38 @@ class Bace extends Controller
      * @access private
      * @return void
      */
-    protected function assign_template()
+    protected function assignTemplate()
     {       
+        //网站配置
         $this->assign('site', Config::get('site'));
-        
-        $this->assign('ur_here', $this->assign_ur_here());        
+        //面包屑导航与页面标题
+        $this->assign('ur_here', $this->assign_ur_here()); 
+        //商品分类树信息
+        $this->assign('cate_tree', weido_get_goods_category_tree);
+        //品牌列表信息
+        $brand_list = Db::table('tp_brand')
+            ->cache(true, WEIDO_CACHE_TIME)
+            ->field('id, parent_cat_id, logo, is_hot')
+            ->where("parent_cat_id>0")
+            ->select();
+        $this->assign('brand_list', $brand_list);
     }
      
      /**
       * 取得当前位置和页面标题
-      *
       * @access  public
-      * @param   integer  $cat    分类编号（只有商品及分类、文章及分类用到）
-      * @param   string   $str    商品名、文章标题或其他附加的内容（无链接）
+      * @param   null
       * @return  array
       */
-     public function assign_ur_here($cat = 0, $str = '')
+     public function assignNav()
      {
-         $_LANG = array();
-         $_ICON = array();
-         $_URL = array();
-         
-         include APP_PATH.'index/lang/breadcrumb.php';
-     
-         $request = Request::instance();
-         $action = $request->action();
-         $controller = $request->controller();
-
-         //页面标题
-         $page_title = $_LANG[$action] . '_' . Config::get('site.shop_title');
-     
-         //内容标题
-         $conent_title = $_ICON[$controller] . '&nbsp;' .$_LANG[$controller];
-
-         //内容副标题
-         $conent_subtitle = $_ICON[$action] . '&nbsp;' . $_LANG[$action];
-         
-         //面包屑导航
-         $ur_here = '<li><a href="'.url('index/index').'"><i class="fa fa-home fa-fw"></i>' . '首页' . '</a></li>';
-         $ur_here .= '<li><a href="' . $_URL[$controller] . '">' . $_ICON[$controller] . $_LANG[$controller] . '</a></li>';
-         $ur_here .= '<li><a href="#">' . $_ICON[$action] . $_LANG[$action] . '</a></li>';
-                      
-     
-         return array(
-             'title' => $page_title,
-             'ur_here' => $ur_here,
-             'content_title' => $conent_title,
-             'content_subtitle' => $conent_subtitle,
-         );
-     
-     }
-     
+        $navigate = include APP_PATH.'home/navigate.php';    
+        $location = strtolower('Home/'.CONTROLLER_NAME);
+        $arr = array(
+            '首页'=>'/',
+            $navigate[$location]['name']=>U('/Home/'.CONTROLLER_NAME),
+            $navigate[$location]['action'][ACTION_NAME]=>'javascript:void();',
+        );
+        return $arr;                                        
+     }     
 }
