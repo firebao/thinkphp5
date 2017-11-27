@@ -153,7 +153,8 @@ class Bace extends Controller
         //面包屑导航与页面标题
         $this->assign('ur_here', $this->assignNav()); 
         //商品分类树信息
-        $this->assign('cate_tree', weido_get_goods_category_tree());
+        $category = new \app\index\model\Category();
+        $this->assign('cate_tree', $category->getCategoriesTree());
         //品牌列表信息
         $brand_list = Db::table('tp_brand')
             ->cache(true, WEIDO_CACHE_TIME)
