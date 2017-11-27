@@ -151,7 +151,7 @@ class Bace extends Controller
         //网站配置
         $this->assign('site', Config::get('site'));
         //面包屑导航与页面标题
-        $this->assign('ur_here', $this->assign_ur_here()); 
+        $this->assign('ur_here', $this->assignNav()); 
         //商品分类树信息
         $this->assign('cate_tree', weido_get_goods_category_tree);
         //品牌列表信息
@@ -169,15 +169,16 @@ class Bace extends Controller
       * @param   null
       * @return  array
       */
-     public function assignNav()
-     {
-        $navigate = include APP_PATH.'home/navigate.php';    
-        $location = strtolower('Home/'.CONTROLLER_NAME);
+    public function assignNav()
+    {
+        $request = Request::instance();
+        $navigate = include APP_PATH . 'index/navigate/navigate.php';    
+        $location = strtolower('Index/' . $request->controller());
         $arr = array(
             '首页'=>'/',
-            $navigate[$location]['name']=>U('/Home/'.CONTROLLER_NAME),
-            $navigate[$location]['action'][ACTION_NAME]=>'javascript:void();',
+            $navigate[$location]['name'] => Url('/Index/' . $request->controller()),
+            $navigate[$location]['action'][$request->action()] => 'javascript:void();',
         );
         return $arr;                                        
-     }     
+     } 
 }
