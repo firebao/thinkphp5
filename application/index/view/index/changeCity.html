@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+	<head>
+		{include file="Public/head"/}
+	</head>
+	<body class="modal-open" style="padding-right: 17px;">
+		{include file="Public/mobile_menu"}
+		<div id="page" style="left:0px">			
+			{include file="Public/header"}
+			{include file="Public/nav"}
+			{include file="Public/our-features"}
+			<div class="container">
+				<div class="hot-cities row">
+					<div class="col-md-3 col-sm-12 col-xs-12" style="padding-top:20px">
+						<h2>进入
+							<a href="javascript:;" onclick="changeCity({$area['areaId']});">{$area["areaName"]}</a>
+						</h2>
+					</div>
+					<div class="col-md-9  col-sm-12 col-xs-12 ">
+						<div class="shortcut row">							 
+								<div class="col-md-3 col-xs-12 col-sm-3 " style="padding-top:20px">              
+		                    		<span>按省份选择：</span>
+		                    	</div>
+		                    	<div class="col-md-8 col-xs-12 col-sm-8" style="padding-top:20px">		                   	
+			                    	<div class="shortcut-select shortcut-select-p">
+				                        <select id="provinceId" onchange="getCitys(this);">
+				                        	{volist name="provinceList" id="province"}
+				                        		<option {eq name="$province.areaId" value="$area.parentId"}selected{/eq} value="{$province['areaId']}">{$province["areaName"]}</option>
+				                        	{/volist}
+				                        </select>
+			                    	</div>
+				                    <div class="shortcut-select shortcut-select-city">
+				                        <select id="cityId">
+				                        	<option>选择城市</option>
+				                        </select>
+				                    </div>
+			                    </div>
+			                    <div class="col-md-1 col-xs-12 col-sm-1" style="padding-top:20px">    
+			                    	<input type="button" class="button" value="确 定" onclick="changeCity();">			                    
+            					</div>
+            				</div>
+            				
+            			</div>
+					</div>					
+				</div>							               	
+			<div class="container">
+				<div class="citys-listbox hidden-xs">
+					<div class="select-py">
+                    	<span>按拼音首字母选择：</span>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('A')">A</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('B')">B</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('C')">C</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('D')">D</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('E')">E</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('F')">F</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('G')">G</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('H')">H</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('I')">I</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('J')">J</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('K')">K</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('L')">L</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('M')">M</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('N')">N</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('O')">O</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('P')">P</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('Q')">Q</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('R')">R</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('S')">S</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('T')">T</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('U')">U</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('V')">V</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('W')">W</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('X')">X</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('Y')">Y</a>
+                    	<a href="javascript:void(0);" onclick="letter_scroll('Z')">Z</a> 
+                	</div>
+            		<div class="citys-list">
+           			{foreach name="cityList" item="citys" key="k"}
+           				<dl id="c_{$k}" onmouseover="$(this).addClass('hover')" onmouseout="$(this).removeClass('hover')" class="">
+                    		<dt>{$k}</dt>
+	                    	<dd>
+	                    	{volist name="citys" key="k2" id="city"}
+	                    		<a href="javascript:;" onclick="changeCity({$city['areaId']});">{$city["areaName"]}</a>
+	                    	{/volist}          
+	                  		</dd>
+                		</dl>
+                	{/foreach} 
+            		</div>
+				</div>
+			</div>
+			{include file="Public/footer"}			    		      		
+		</div><!-- page END -->
+		<script>
+			var url_reChangeCity = "{:url('index/reChangeCity')}";
+			var url_getCityListByProvince = "{:url('area/getCityListByProvince')}";
+			var changecity_cityinfo;
+	    	var cities = new Array();
+	    	var city_pinyins = new Array();
+	    	var city_first_chart=[["a","b","c","d"],
+	    		["e","f","g","h","i","j"],
+	    		["k","l","m","n"],
+	    		["o","p","q","r","s","t"],
+	    		["u","v","w","x","y","z"]];			
+		</script>
+		{include file="Public/index_script"}
+		<script type="text/javascript" src="__JS__/common.js?v=725"></script>
+		<script type="text/javascript" src="__JS__/index/changeCity.js"></script>
+
+	</body>
+</html>

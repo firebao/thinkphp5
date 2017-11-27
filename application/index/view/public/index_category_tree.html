@@ -1,0 +1,32 @@
+<div class="category_info">
+	<div id="category_tree">
+	    {volist name='categories' id='cat'}
+	    <div class="cat-box">
+	    	<!-- 1级分类 -->
+  			<div class="cat1">
+  				<a href="{$cat.url}">{$cat.name|htmlspecialchars|addslashes}</a>
+			</div>
+			
+			<!-- 2级分类 -->
+  			{if $cat.cat_id }
+  			<div class="cat2-box">
+ 				{foreach $cat.cat_id as $child} 
+				<div class="cat2">
+  					<a class="cat2-link" href="{$child.url}">{$child.name|htmlspecialchars|addslashes}</a>
+ 					<!-- 3级分类 -->
+					{if $child.cat_id}
+  					<div class="cat3-block"></div>
+  					<div class="cat3-box">
+						{foreach $child.cat_id as $childer}
+  						<a href="{$childer.url}">{$childer.name|htmlspecialchars|addslashes}</a>&nbsp;&nbsp;
+						{/foreach}
+  					</div>
+  					{/if}
+				</div>
+				{/foreach}
+			</div>
+			{/if}	
+	    </div>
+	    {/volist}
+  	</div>
+</div>

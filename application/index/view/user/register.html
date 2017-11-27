@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+	<head>
+		{include file="Public/head"/}
+		<link rel="stylesheet" href="__STATIC__/plugin/iCheck/square/blue.css">
+		<style>
+			label.error {
+				margin-top: 12px;
+				padding-left: 10px;
+				padding-bottom: 2px;
+				font-weight: bold;
+				color: OrangeRed;
+			}
+		</style>
+	</head>
+	<body class="modal-open" style="padding-right: 17px;">		
+		{include file="Public/mobile_menu"}
+		<div id="page">			
+			{include file="Public/header"}
+			{include file="Public/nav"}
+			<div class="container " >
+				<!-- 用户协议模态框 -->
+				{include file="public/agreement"}
+				{eq name="shop_reg_closed" value="0"}
+				<div class="alert alert-warning alert-dismissable" style="margin-top:20px">
+	            	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+	                <h4><i class="icon fa fa-warning"></i> 警告!</h4>
+	                   	网站注册功能暂时关闭！
+	          	</div>
+				{else/}
+				<div class="row">
+					<div class="col-lg-8 col-md-7 col-sm-6 hidden-xs">
+						
+					</div>
+					<div class="col-lg-4 col-md-5 col-sm-6 col-xs-12">
+			    		<div class="register-box">    	
+			      			<div class="register-logo">
+				        		<a class="text-green" href="{:url('index/index')}">
+				        			<b>WeiDo</b>
+				        			<span style="font-size:24px">围兜网</span>
+				    			</a>
+			      			</div>
+			      			<div class="register-box-body">       			
+			        			<div class="alert alert-warning alert-dismissable login-msg" style="margin-bottom:15px" hidden>
+			                    	                 	
+			                  	</div>
+			    				<form id="register" action="{:url('user/action_register')}" autocomplete="new-password" method="post">
+			          				<div class="form-group has-feedback">
+			            				<input type="text" class="form-control" id="username" name="username" autocomplete="off" onpaste="return false;" onfocus="fnOnFocusInput(this);" onblur="fnOnBlurInput(this);" placeholder="用户名" style="ime-mode:disabled;" required>
+			            				<span class="glyphicon glyphicon-user form-control-feedback"></span> 
+			          				</div>
+						          	<div class="form-group has-feedback">
+						            	<input type="tel" class="form-control" id="phone" name="phone" autocomplete="off" onpaste="return false;" onfocus="fnOnFocusInput(this);" onblur="fnOnBlurInput(this);" placeholder="手机号码" style="ime-mode:disabled;" required>
+						            	<span class="glyphicon glyphicon-phone form-control-feedback"></span>
+						          	</div>					          	
+						          	<div class="row">
+						          		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								          	<div class="form-group has-feedback">
+								            	<input type="text" class="form-control" id="phone-code" autocomplete="off" onpaste="return false;" onfocus="fnOnFocusInput(this);" onblur="fnOnBlurInput(this);" name="phone-code" placeholder="短信验证码" style="ime-mode:disabled;" required>
+								            	<span class="glyphicon glyphicon-comment form-control-feedback"></span>
+								          	</div>
+							          	</div>
+							          	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							          		<div class="form-group has-feedback">
+								          		<a class="btn btn-block btn-primary" href="javascript:void(0);" onclick="fnGetVerifyCode();" id="sendMobileCode">
+		                                			<span id="timeTips">获取短信验证码</span>
+		                           				</a>
+	                           				</div>
+							          	</div>
+						          	</div>
+						          	<div class="form-group has-feedback">
+						            	<input type="password" class="form-control" id="password" name="password" autocomplete="new-password" onpaste="return false;" onfocus="fnOnFocusInput(this);" onblur="fnOnBlurInput(this);" onkeyup="fnCheckIntensity(this.value)" placeholder="密码" style="ime-mode:disabled;" required>
+						            	<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+						          	</div>
+						          	<div class="progress" hidden>
+						            	<div class="progress-bar" id="progress" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
+						              		<span id="progress-span">密码强度</span>
+						            	</div>
+						          	</div>
+						          	<div class="form-group has-feedback">
+						            	<input type="password" class="form-control" id="confirm_password" name="confirm_password" autocomplete="new-password" onpaste="return false;" onfocus="fnOnFocusInput(this);" onblur="fnOnBlurInput(this);" placeholder="请确认您的密码"  style="ime-mode:disabled;" required>
+						            	<span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+						          	</div>					          					          	
+					              	<div class="checkbox icheck">
+					                	<label>
+						                  	<div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
+						                  		<input id="agree" type="checkbox" name="agreement" onchange="agreeRule(this.value);" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+						                  		<ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+						                  	</div> 
+						                  	您是否同意此 <a href="#" class="agreement-a" data-toggle="modal" data-target="#myModal">《注册协议》</a>
+											
+					                	</label>
+					              	</div>
+									
+					            	<div>
+					              		<button id="submit" type="submit" class="btn btn-primary btn-block btn-flat" disabled>立即注册</button>
+					            	</div>
+						        </form>
+								<div class="social-auth-links text-center">
+			          				<p>- OR -</p>
+			          				<a href="{:url('login')}" class="btn btn-block btn-weido btn-flat"><i class="fa fa-user fa-fw"></i>我已有账号，我要登录</a>
+			          				<a href="{:url('get_password')}" class="btn btn-block btn-weido btn-flat"><i class="fa fa-unlock fa-fw"></i>忘记密码？</a>
+			        			</div>
+			      			</div><!-- /.form-box -->
+			    		</div><!-- /.register-box -->
+	    			</div>
+	    		</div>
+	    		{/eq}
+	    	</div>    	
+			
+			{include file="Public/footer"}
+		</div>
+	    <script src="__STATIC__/plugin/iCheck/icheck.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+	    <script src="__JS__/index/register.js"></script>
+	  	<script>
+	  		var isResgisterUrl = "{:url('user/is_register')}";
+	  	</script>
+	</body>
+</html>

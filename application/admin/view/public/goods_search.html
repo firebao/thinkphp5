@@ -1,0 +1,47 @@
+<div class="box box-default">
+	<div class="box-body">
+		<form id="search-form" action="#" method="POST">
+    		<span class="fa fa-search"></span>
+        	<!-- 分类 -->
+			<select name="cat_id">
+				<option value="0">所有分类</option>
+				{$cat_list}
+			</select>
+			<!-- 品牌 -->
+			<select name="brand_id">
+				<option value="0">所有品牌</option>
+				{volist name="brand_list" id="vo"}
+				<option value="{$vo.brand_id}">{$vo.brand_name}</option>
+				{/volist}
+			</select>
+			<!-- 推荐 -->
+			<select name="intro_type">
+				<option value="0">全部</option>
+				<option value="is_best">精品</option>
+				<option value="is_new">新品</option>
+				<option value="is_hot">热卖</option>
+				<option value="is_promote">推荐</option>
+				<option value="all_type">所有</option>
+				
+			</select>
+ 			{if $suppliers_exists eq 1}    
+  			<!-- 供货商 -->
+  			<select name="suppliers_id">
+  				<option value="0">全部</option>
+  				{volist name="suppliers_list" id="vo"}
+				<option value="{$vo.suppliers_id}">{$vo.suppliers_name}</option>
+				{/volist}
+			</select>
+  			{/if}
+  			<!-- 上架 -->
+  			<select name="is_on_sale">
+  				<option value=''>全部</option>
+  				<option value="1">上架</option>
+  				<option value="0">下架</option>
+			</select>
+			<!-- 关键字 -->
+			关键字 <input type="text" name="keyword" size="15" />
+			<input id="list-search" type="submit" value="搜索" />
+  		</form>
+	</div>
+</div>

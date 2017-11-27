@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html style="height:100%">
+	<head>
+		{include file="Public/head"/}
+		<link rel="stylesheet" href="__STATIC__/plugin/iCheck/square/blue.css">
+	</head>
+	<body class="hold-transition skin-red-light" style="height:100%;color:#999">
+		<div class="wrapper" style="background-color:#d2d6de">
+			{include file="Public/shortcut"}
+			{include file="Public/header"}
+    		{include file="Public/sidebar"}
+    		<div class="content-wrapper" style="min-height: 901px;margin-left:145px;padding:10px 10px 10px 30px;">
+    			{include file="Public/content_header"}
+    			<!-- 用户信息 -->
+    			<div class="box box-widget widget-user" style="margin-left:10px;">
+    				<div class="row">
+    					<div class="col-sm-4 widget-user-header bg-red" style="border-top-left-radius: 25px;border-bottom-left-radius: 25px;">
+    						<div class="widget-user-image" style="left:20%;top:15%;">
+                  				<img class="img-circle" src="__STATIC__/image/default.png" alt="User Avatar">
+                			</div>
+                			<div class="widget-user-info" style="position:relative;left:40%;">
+	    						<h3 class="widget-user-username" style="font-size:16px; color:#000;">舍海洋</h3>
+	    						<p class="widget-user-desc">{$rank_name}</p>
+    						</div>
+    					</div>
+    					<div class="cos-sm-8">
+    					</div>
+    				</div>
+    			</div><!-- 用户信息 END -->
+    			<!-- 订单信息 -->
+				<div class="box box-danger">
+					<div class="box-header with-border">
+						<h3 class="box-title" style="font-size:14px">我的订单</h3>
+						<div class="box-tools pull-right">
+							<a href="#" class="btn btn-box-tool">查看全部订单</a>                    		
+                  		</div>
+              		</div>
+              		<div class="box-body">
+              			<div class="cart-empty" style="text-align:center">
+	              			<i class="fa fa-shopping-cart fa-5x"></i>
+	              			您买的东西太少了，这里都空空的，快去挑选合适的商品吧！
+              			</div>
+              		</div>
+          		</div><!-- 订单信息 END -->
+          		<!-- 关注商品 -->
+				<div class="box box-danger">
+					<div class="box-header with-border">
+						<h3 class="box-title" style="font-size:14px">我关注的商品</h3>
+						<div class="box-tools pull-right">
+							<a href="#" class="btn btn-box-tool">查看更多</a>                    		
+                  		</div>
+              		</div>
+              		<div class="box-body">
+              			<div class="cart-empty" style="text-align:center">
+	              			您还没有关注任何商品，看到感兴趣的就果断关注吧！
+              			</div>
+              		</div>
+          		</div><!-- 关注商品END -->
+      		</div><!-- content-wrapper END -->
+      		{include file="Public/footer"}
+		</div><!-- wrapper END -->
+	    <script src="__STATIC__/plugin/iCheck/icheck.min.js"></script>
+		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+	    <script src="__JS__/index/login.js"></script>
+
+	</body>
+</html>

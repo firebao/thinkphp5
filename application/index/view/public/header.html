@@ -1,0 +1,140 @@
+<header>
+<div class="header-container">
+  <div class="header-top">
+    <div class="container">
+      <div class="row"> 
+        <!-- Header Language -->
+        <div class="col-xs-12 col-sm-6" style="font-size:12px;">
+          <div class="welcome-msg">
+          	<a href="{:url('index/index')}" class="block-language" target="_self">
+      		  <span class="hidden-xs"><i class="fa fa-home fa-fw"></i>&nbsp;围兜首页</span>
+  		    </a>
+  		    {if condition= "isset($user_info)"}
+            <a title="欢迎光临" class="block-language" href="{:url('user/index')}" style="margin-left:10px;"> <span class="hidden-xs">{$user_info.username},欢迎来到围兜网</span></a>
+            {else}
+            <a title="登录" class="block-language" href="{:url('user/login')}" style="margin-left:10px;"> <span class="hidden-xs"> <i class="fa fa-user fa-fw"></i>你好，请登录</span></a>
+            <a title="免费注册" class="block-language" href="{:url('user/register')}" style="margin-left:10px;"> <span class="hidden-xs"> <i class="fa fa-user-plus fa-fw"></i>免费注册</span></a>
+            {/if}  
+	      </div>
+	      
+          <div class="jtv-language-box"> 
+          	<a class="block-language" role="button" href="{:url('index/changeCity')}"> 
+        	  <span class="fa fa-globe">&nbsp;{$currArea.areaName}</span> 
+          	</a>
+          </div>
+          <!-- End Header Language -->                             
+        </div>
+        <div class="col-xs-6 hidden-xs"> 
+          <!-- Header Top Links -->
+          <div class="jtv-top-links">
+            <div class="links">
+              <ul>               
+                <li> <a title="我的围兜" href="{:url('user/index')}"> <span class="hidden-xs"> <span class="fa fa-wordpress fa-fw"></span> &nbsp;我的围兜</span></a> </li>
+                <li> <a title="我的收藏" href="{:url('user/favorite')}"> <span class="fa fa-folder-open fa-fw"></span> &nbsp;我的收藏</a> </li>
+                <li> <a title="我的账单" href="{:url('user/order')}"><span class="hidden-xs"> <span class="fa fa-list fa-fw"></span> &nbsp;我的订单</span></a> </li>
+                <li>
+                  <div class="dropdown block-company-wrapper hidden-xs"> <a role="button" data-toggle="dropdown" data-target="#" class="block-company dropdown-toggle" href="#"> 更多 <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                      <li><a href="{:url('index/about_us')}"> 关于我们 </a> </li>
+                      <li><a href="{:url('index/customer_service')}"> 客户服务 </a> </li>
+                      <li><a href="{:url('index/privacy_policy')}"> 隐私策略 </a> </li>
+                      <li><a href="{:url('index/site_map')}"> 网站地图 </a> </li>
+                      <li><a href="{:url('index/search_terms')}"> 搜索 </a> </li>
+                    </ul>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- End Header Top Links --> 
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <div class="jtv-top-cart-box"> 
+          <!-- Top Cart -->
+          <div class="mini-cart">
+            <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle"> 
+        	  <a href="#">            	    
+        	    <span class="price">我的购物车</span>
+        	    <span class="badge" style="vertical-align: inherit;background-color: #dd4b39;padding: 3px 5px;">2</span>
+	    	  </a> 
+    	    </div>
+            <div>
+              <div class="jtv-top-cart-content" style="display: none;"> 
+                
+                <!--block-subtitle-->
+                <ul class="mini-products-list" id="cart-sidebar">
+                  <li class="item first">
+                    <div class="item-inner">
+                     <a class="product-image" title="Product Title Here" href="single_product.html">
+                      <img alt="Product Title Here" src="__IMAGE__/products/img01.jpg"> 
+                     </a>
+                      <div class="product-details">
+                        <div class="access">
+                         <a class="jtv-btn-remove" title="Remove This Item" href="#">Remove</a> 
+                         <a class="btn-edit" title="Edit item" href="#"><i class="icon-pencil"></i><span class="hidden">Edit item</span></a> 
+                        </div>
+                        <p class="product-name"><a href="#">Product Title Here</a> </p>
+                        <strong>1</strong> x <span class="price">$79.99</span> </div>
+                    </div>
+                  </li>
+                  <li class="item">
+                    <div class="item-inner"> 
+                     <a class="product-image" title="Product Title Here" href="single_product.html">
+                      <img alt="Product Title Here" src="__IMAGE__/products/img02.jpg"> 
+                     </a>
+                      <div class="product-details">
+                        <div class="access">
+                         <a class="jtv-btn-remove" title="Remove This Item" href="#">Remove</a> 
+                         <a class="btn-edit" title="Edit item" href="#"><i class="icon-pencil"></i><span class="hidden">Edit item</span></a> 
+                        </div>
+                        <p class="product-name"><a href="#">Product Title Here</a> </p>
+                        <strong>1</strong> x <span class="price">$88.89</span> </div>
+                    </div>
+                  </li>
+                  <li class="item last">
+                    <div class="item-inner"> 
+                     <a class="product-image" title="Product Title Here" href="single_product.html">
+                      <img alt="Product Title Here" src="__IMAGE__/products/img04.jpg"> 
+                     </a>
+                     <div class="product-details">
+                       <div class="access">
+                        <a class="jtv-btn-remove" title="Remove This Item" href="#">Remove</a>
+                        <a class="btn-edit" title="Edit item" href="#"><i class="icon-pencil"></i><span class="hidden">Edit item</span></a> 
+                       </div>
+                        <p class="product-name"><a href="#">Product Title Here</a> </p>
+                        <strong>1</strong> x <span class="price">$85.99</span> </div>
+                    </div>
+                  </li>
+                </ul>
+                
+                <!--actions-->
+                <div class="actions">
+                  <button class="btn-checkout" title="Checkout" type="button" onclick="#"><span>Checkout</span> </button>
+                  <a href="#" class="view-cart"><span>View Cart</span></a> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 col-md-4 col-sm-4 col-xs-12 jtv-logo-box"> 
+        <!-- Header Logo -->
+        <div class="logo"> <h1><a title="eCommerce" href="index.html"><img alt="eCommerce" src="__IMAGE__/logo.png"> </a></h1> </div>
+        <!-- End Header Logo --> 
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 hidden-xs">
+        <div class="search-box">
+          <form action="cat" method="POST" id="search_mini_form" name="Categories">
+          <input type="text" placeholder="Search here..." value="" maxlength="70" name="search" id="search">
+            <button type="button" class="search-btn-bg"><span class="fa fa-search"></span>&nbsp;</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>

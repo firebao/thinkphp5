@@ -1,0 +1,201 @@
+{extend name="Base/common" /}
+{block name="body"}
+	<div class="content-wrapper">
+		<!-- 标题以及面包屑导航 -->
+		<section class="content-header">
+      		<h1>
+            	首页            	
+          	</h1>
+          	<ol class="breadcrumb">
+            	<li>
+            		<a href="#"><i class="fa fa-home active"></i> 首页</a>
+        		</li>
+          	</ol>
+        </section>
+        <section class="content">
+        	<div class="row">
+        		<div class="col-sm-12">
+	        		<!-- 后台系统警告 -->
+			        <div class="alert alert-warning alert-dismissable">
+			        	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			            <h4>
+			            	<i class="icon fa fa-warning"></i> 
+			            	Warning!
+			        	</h4>
+			        	系统时间错误！
+			      	</div>
+			      	<!--订单信息统计-->
+			      	<div class="box">
+			      		<div class="box-header">
+			      			<h3 class="box-title">订单统计信息</h3>
+			      		</div>
+			      		<div class="box-body">
+					      	<div class="col-sm-12">
+								<table id="order-info" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="order-info">
+				  					<thead>				  						
+				  					</thead>
+				  					<tbody>
+				  						<tr>
+				  							<td width="20%"><a href="#">待发货订单:</a></td>
+				    						<td width="30%"><strong style="color: red">0</strong></td>
+				    						<td width="20%"><a href="#">未确认订单:</a></td>
+				    						<td width="30%"><strong>0</strong></td>
+				  						</tr>
+									  	<tr>
+									    	<td><a href="order.php?act=list&amp;composite_status=100">待支付订单:</a></td>
+									    	<td><strong>0</strong></td>
+									    	<td><a href="order.php?act=list&amp;composite_status=102">已成交订单数:</a></td>
+									    	<td><strong>0</strong></td>
+									  	</tr>
+									  	<tr>
+										    <td><a href="goods_booking.php?act=list_all">新缺货登记:</a></td>
+										    <td><strong>0</strong></td>
+										    <td><a href="user_account.php?act=list&amp;process_type=1&amp;is_paid=0">退款申请:</a></td>
+										    <td><strong>0</strong></td>
+									  	</tr>
+									  	<tr>
+										    <td><a href="order.php?act=list&amp;composite_status=6">部分发货订单:</a></td>
+										    <td><strong>0</strong></td>
+										    <td>&nbsp;</td>
+										    <td>&nbsp;</td>
+									  	</tr>
+									</tbody>
+								</table>
+							</div>
+		      			</div>
+	      			</div>
+	  				<!--订单信息统计-->
+			      	<div class="box">
+			      		<div class="box-header">
+			      			<h3 class="box-title">订单统计信息</h3>
+			      		</div>
+			      		<div class="box-body">
+					      	<div class="col-sm-12">
+								<table id="order-info" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="order-info">
+				  					<thead>				  						
+				  					</thead>
+				  					<tbody>
+				  						<tr>
+				  							<td width="20%"><a href="#">待发货订单:</a></td>
+				    						<td width="30%"><strong style="color: red">0</strong></td>
+				    						<td width="20%"><a href="#">未确认订单:</a></td>
+				    						<td width="30%"><strong>0</strong></td>
+				  						</tr>
+									  	<tr>
+									    	<td><a href="order.php?act=list&amp;composite_status=100">待支付订单:</a></td>
+									    	<td><strong>0</strong></td>
+									    	<td><a href="order.php?act=list&amp;composite_status=102">已成交订单数:</a></td>
+									    	<td><strong>0</strong></td>
+									  	</tr>
+									  	<tr>
+										    <td><a href="goods_booking.php?act=list_all">新缺货登记:</a></td>
+										    <td><strong>0</strong></td>
+										    <td><a href="user_account.php?act=list&amp;process_type=1&amp;is_paid=0">退款申请:</a></td>
+										    <td><strong>0</strong></td>
+									  	</tr>
+									  	<tr>
+										    <td><a href="order.php?act=list&amp;composite_status=6">部分发货订单:</a></td>
+										    <td><strong>0</strong></td>
+										    <td>&nbsp;</td>
+										    <td>&nbsp;</td>
+									  	</tr>
+									</tbody>
+								</table>
+							</div>
+		      			</div>
+	      			</div>
+	  				<!--订单信息统计-->
+			      	<div class="box">
+			      		<div class="box-header">
+			      			<h3 class="box-title">订单统计信息</h3>
+			      		</div>
+			      		<div class="box-body">
+					      	<div class="col-sm-12">
+								<table id="order-info" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="order-info">
+				  					<thead>				  						
+				  					</thead>
+				  					<tbody>
+				  						<tr>
+				  							<td width="20%"><a href="#">待发货订单:</a></td>
+				    						<td width="30%"><strong style="color: red">0</strong></td>
+				    						<td width="20%"><a href="#">未确认订单:</a></td>
+				    						<td width="30%"><strong>0</strong></td>
+				  						</tr>
+									  	<tr>
+									    	<td><a href="order.php?act=list&amp;composite_status=100">待支付订单:</a></td>
+									    	<td><strong>0</strong></td>
+									    	<td><a href="order.php?act=list&amp;composite_status=102">已成交订单数:</a></td>
+									    	<td><strong>0</strong></td>
+									  	</tr>
+									  	<tr>
+										    <td><a href="goods_booking.php?act=list_all">新缺货登记:</a></td>
+										    <td><strong>0</strong></td>
+										    <td><a href="user_account.php?act=list&amp;process_type=1&amp;is_paid=0">退款申请:</a></td>
+										    <td><strong>0</strong></td>
+									  	</tr>
+									  	<tr>
+										    <td><a href="order.php?act=list&amp;composite_status=6">部分发货订单:</a></td>
+										    <td><strong>0</strong></td>
+										    <td>&nbsp;</td>
+										    <td>&nbsp;</td>
+									  	</tr>
+									</tbody>
+								</table>
+							</div>
+		      			</div>
+	      			</div>
+	  				<!--系统信息 -->
+	  				<div class="box">
+	  					<div class="box-header">
+	  						<h3 class="box-title">系统信息</h3>
+	  					</div>
+	  					<div class="box-body">
+	  						<div class="col-sm-12">
+	  							<table id="sys-info" class="table table-bordered table-hover dataTable" role="grid" aria-descriptedby="sys-info">
+		  							<thead>
+		  							</thead>
+		  							<tbody>	  								
+									  	<tr>
+										    <td width="20%">服务器操作系统:</td>
+										    <td width="30%">{$sys_info.os}</td>
+										    <td width="20%">Web 服务器:</td>
+										    <td width="30%">{$sys_info.web_server}</td>
+									  	</tr>
+									  	<tr>
+										    <td>PHP 版本:</td>
+										    <td>{$sys_info.php_ver}</td>
+										    <td>编码:</td>
+										    <td>UTF-8</td>
+									  	</tr>
+									  	<tr>
+										    <td>安全模式:</td>
+										    <td>{$sys_info.safe_mode}</td>
+										    <td>安全模式GID:</td>
+										    <td>{$sys_info.safe_mode_gid}</td>
+									  	</tr>
+									  	<tr>
+										    <td>Socket 支持:</td>
+										    <td>{$sys_info.socket}</td>
+										    <td>时区设置:</td>
+										    <td>{$sys_info.timezone}</td>
+									  	</tr>
+									  	<tr>
+										    <td>文件上传的最大大小:</td>
+									    	<td>{$sys_info.max_filesize}</td>
+										    <td>Zlib 支持:</td>
+										    <td>{$sys_info.zlib}</td>
+									  	</tr>							  	
+									</tbody>
+	  							</table>
+	  						</div>	  						
+	  					</div>
+	  				</div>
+	  			</div>
+  			</div>
+      	</section>
+	</div>
+{/block}
+{block name="script"}
+	
+{/block}
+

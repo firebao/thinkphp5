@@ -1,0 +1,67 @@
+{extend name="Base/common" /}
+{block name="body"}
+	<div class="content-wrapper">
+		<!-- 标题以及面包屑导航 -->
+		<section class="content-header">
+      		<h1>
+            	商品列表           	
+          	</h1>
+          	<ol class="breadcrumb">
+            	<li>
+            		<a href="{:url('index/main')}"><i class="fa fa-home active"></i> 首页</a>
+        		</li>
+        		<li>
+        			<a href="#">商品列表 </a>
+        		</li>
+          	</ol>
+      	</section>
+      	<br/>
+      	<br/>
+  		<!-- 商品搜索 -->
+	  	{include file="public/goods_search"}
+		<!-- 商品搜索结束 -->
+		
+		<!-- 商品列表 -->
+		<div class="box box-default">
+			<div class="box-body">
+				<div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+					<div class="row">
+						<div class="col-sm-12">							
+							<table id="goods-list" class="table table-bordered table-striped dataTable" role="grid">
+	  							<thead>
+	  								<tr role="row">
+	    								<th>
+	      									<input onclick="listTable.selectAll(this, &quot;checkboxes&quot;)" type="checkbox"/>
+	      									编号
+	  									</th>
+	    								<th>商品名称</th>
+	    								<th>货号</th>
+	    								<th>价格</th>
+	    								<th>上架</th>
+	    								<th>精品</th>
+	    								<th>新品</th>
+	    								<th>热销</th>
+	    								<th>推荐排序</th>
+	    								<th>库存</th>
+	    								<th>虚拟销量</th>
+	    								<th>操作</th>   								   
+	  								</tr>
+  								</thead>
+  								
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>						
+		</div>
+		<!-- 商品列表结束 -->	
+	</div>
+{/block}
+{block name="script"}
+	<script>
+		var url = "{:url('GoodsList')}";
+	</script>
+	<!-- DataTables -->
+	<script src="__STATIC__/plugin/datatables/jquery.dataTables.js"></script> 
+	<script src="__JS__/goods_list.js"></script>
+{/block}

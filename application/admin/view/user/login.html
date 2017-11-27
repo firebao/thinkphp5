@@ -1,0 +1,57 @@
+{extend name="Base/login_base" /}
+{block name="body"}
+	<div class="container login_container">
+		<div class="row">
+			<div class="col-sm-8 col-sm-offset-2">
+			    <img class="icon-show" src="__IMAGE__/icon.png" >
+				<h3>WEIDO系统管理员登录</h3>
+                    <div class="description">
+                    	<p>We do what you need!</p>
+                    </div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3 form-box">
+				<div class="form-top">
+                		<div class="form-top-left">
+                			<h3>登录系统后台</h3>
+                    		<p>请输入您的注册邮箱和密码:</p>
+                    		<div class="controls validform-checktip text-danger"></div>
+                		</div>
+                		<div class="form-top-right">
+                		</div>
+                </div>
+
+				<div class="form-bottom">
+		              <form id="login-form" role="form" action="{:url('user/login')}" method="post">
+			              	<div class="input-group form-group">			              		
+			              		<span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+			                  	<input class="form-control" id="form-email" type="email" name="email" placeholder="请输入注册邮箱..." required>
+			                </div>
+			                <div class="input-group form-group">
+			                  	<span class="input-group-addon"><i class="fa fa-key"></i></span>
+			                  	<input class="form-control" id="form-password" type="password" name="password" placeholder="请输入密码..." required>
+			                </div>		       
+		               	    <div class="input-group form-group">
+		    	            	<div class="verify-input col-sm-4">
+			    	            	<div class="input-group form-group">
+				                		<span class="input-group-addon"><i class="fa fa-desktop"></i></span>
+				                      	<input class="form-verify form-control" id="form-verify" type="text" name="verify" placeholder="验证码" required>
+			                		</div>
+		                    	</div>
+		                   		<div class="verifycode col-sm-8">
+		                   			<img class="verifyimg reloadverify img-rounded" alt="点击切换" src="{:captcha_src()}" style="cursor:pointer;">
+		                   			<a href="javascript:;" class="reloadverify_a">换一张?</a>
+		                   		</div>
+                			</div>
+
+		                  <button type="submit" class="btn btn-login btn-block btn-success">登录</button>
+		               </form>		                 		            
+	             </div>
+			</div>
+	</div>
+	</div>
+{/block}
+{block name="script"}
+	<script src="__JS__/login.js"></script>
+{/block}

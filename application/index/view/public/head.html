@@ -1,0 +1,58 @@
+<!-- 公共的头部模板head -->
+
+<!-- meta标签定义html文档的元数据 -->
+<meta charset="UTF-8">
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+<meta name="keywords" content="{$site.shop_keywords}">
+<meta name="description" content="{$site.shop_desc}">
+
+<title>{$ur_here['title']}</title>
+<!-- Ionicons TODO:部署时需要更改路径，并将gif移到pubic目录下-->
+<link rel="icon" href="__ROOT__/favicon.gif" type="image/gif">
+<!-- CSS -->
+<!-- Bootstrap -->
+<link href="__CSS__/bootstrap.min.css" rel="stylesheet">
+<!-- Font Awesome -->
+<link href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<!-- Layer -->
+<link href="__PLUGIN__/layer/skin/layer.css" rel="stylesheet">
+<!-- 自定义样式表 -->
+<link href="__CSS__/style.css" rel="stylesheet">
+<link href="__CSS__/responsive.css" rel="stylesheet" >
+
+<!--JS -->
+<!-- jquery js --> 
+<script type="text/javascript" src="__JS__/jquery.min.js"></script> 
+<!-- bootstrap js --> 
+<script type="text/javascript" src="__JS__/bootstrap.js"></script> 
+<!-- jtv-jtv-mobile-menu js --> 
+<script type="text/javascript" src="__JS__/jtv-mobile-menu.js"></script>
+<!-- owl.carousel.min js --> 
+<script type="text/javascript" src="__JS__/owl.carousel.min.js"></script>
+<!-- rev-slider js --> 
+<script type="text/javascript" src="__JS__/rev-slider.js"></script>
+<!-- layer js -->
+<script src="__PLUGIN__/layer/layer.min.js"></script>
+<!-- WIDO常量 -->
+<script type="text/javascript">
+var WEIDO = ThinkPHP = window.Think = {
+        "ROOT"   : "__ROOT__",
+        "APP"    : "__APP__",
+        "PUBLIC" : "__PUBLIC__",
+        "DEEP"   : "{$Think.config.pathinfo_depr}",
+        "DOMAIN" : "{:WEIDODomain()}",
+        "CITY_ID" 		: "{$currArea['areaId']}",
+        "CITY_NAME" 	: "{$currArea['areaName']}",
+        "DEFAULT_IMG"	: "{:WEIDODomain()}/{$Think.config.site.goodsImg}",
+        "SMS_VERFY"  	: "{$Think.config.site.send_sms_verfy}",
+        "PHONE_VERFY"  	: "{$Think.config.site.phoneVerfy}",
+};
+</script>   
+<!-- think.js-->
+<script type="text/javascript" src="__JS__/think.js"></script>
+<!-- main js --> 
+<script type="text/javascript" src="__JS__/main.js"></script>
+<!-- common js -->
+<script type="text/javascript" src="__JS__/common.js"></script>

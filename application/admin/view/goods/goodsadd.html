@@ -1,0 +1,273 @@
+{extend name="Base/common" /}
+{block name="body"}
+	<div class="content-wrapper">
+		<!-- 标题以及面包屑导航 -->
+		<section class="content-header">
+      		<h1>
+            	添加新商品            	
+          	</h1>
+          	<ol class="breadcrumb">
+            	<li>
+            		<a href="{:url('index/main')}"><i class="fa fa-home active"></i> 首页</a>
+        		</li>
+        		<li>
+        			<a href="#">添加新商品 </a>
+        		</li>
+          	</ol>
+      	</section>
+      	<section class="content">
+      		<div class="row">
+      			<div class="col-sm-12">
+      				<!-- 后台系统警告 -->
+      				{if isset($warning)}
+			        <div class="alert alert-warning alert-dismissable">
+			        	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			            <h4>
+			            	<i class="icon fa fa-warning"></i> 
+			            	Warning!
+			        	</h4>
+			        	{$warning}
+			      	</div>
+			      	{/if}
+			      	
+			      	<div class="nav-tabs-custom">
+			      		<!-- tab bar -->
+			      		<ul class="nav nav-tabs">
+			      			<li class="active">
+			      				<a href="#general-tab" data-toggle="tab" aira-expanded="true">通用信息</a>
+			      			</li>
+			      			<li>
+			      				<a href="#detail-tab" data-toggle="tab" aira-expanded="true">详细描述</a>
+			      			</li>
+			      			<li>
+			      				<a href="#mix-tab" data-toggle="tab" aira-expanded="true">其他信息</a>
+			      			</li>
+			      			<li>
+			      				<a href="#"	data-toggle="tab" aira-expanded="true">商品属性</a>
+			      			</li>
+			      			<li>
+			      				<a href="#"	data-toggle="tab" aira-expanded="true">商品相册</a>
+			      			</li>
+			      			<li>
+			      				<a href="#"	data-toggle="tab" aira-expanded="true">关联商品</a>
+			      			</li>
+			      			<li>
+			      				<a href="#"	data-toggle="tab" aira-expanded="true">配件</a>
+			      			</li>
+			      			<li>
+			      				<a href="#"	data-toggle="tab" aira-expanded="true">关联文章</a>
+			      			</li>
+			      		</ul>
+			      		<!-- tab body -->
+			      		<div class="tab-content">
+			      			<!--通用信息 -->
+				      		<div class="tab-pane" id="general-tab">
+				      			<form class="form-horizontal" name="theForm">
+				      				<!--商品名称-->
+				      				<div class="form-group">				      	
+				      					<label for="goods-name" class="col-sm-2 control-label">商品名称:</label>
+				      					<div class="col-sm-2">
+				      						<input type="text" class="form-control input-sm" id="goods-name">
+				      					</div>
+				      					<label for="goods-name-color" class="col-sm-2 controle-label sr-only">商品名称颜色:</label>
+			      						<div class="col-sm-2 my-colorpicker1 colorpicker-element">
+					      					<input type="hidden" class="input-sm" id="goods-name-color">
+					      					<div class="input-group-addon" style="border:none">
+	                        					<i style="background-color: rgb(113, 165, 89);"></i>
+	                      					</div>
+                      					</div>
+                      					<label for="goods-name-style" class="sr-only">商品名称样式:</label>
+                      					<div class="col-sm-2" style="float:left">
+				      						<select class="form-control input-sm" id="goods-name-style">
+              									<option>加粗</option>
+              									<option>斜线</option>
+              									<option>下划线</option>
+              									<option>删除线</option>
+            								</select>				      						
+				      					</div>				     					
+				      				</div>			      								      				
+				      				<!--商品货号-->
+				      				<div class="form-group">
+				      					<label for="goods_sn" class="col-sm-2 control-label"><span class="fa fa-question-circle-o fa-lg text-success" onclick=showNotice('noticeGoodsSN')></span>  商品货号:</label>
+				      					<div class="col-sm-2">
+				      						<input type="text" class="form-control input-sm" id="goods_sn"></input>				      									      						
+				      					</div>
+				      					<p class="help-block" id="noticeGoodsSN" style="display:none">如果您不输入商品货号，系统将自动生成一个唯一的货号。</p>
+				      				</div>
+				      				<!--商品分类 -->
+				      				<div class="form-group">
+				      					<label for="cate-id" class="col-sm-2 control-label">商品名称:</label>
+				      					<div class="col-sm-2">
+				      						<select class="form-control input-sm" id="cate-id" name="cate-id">
+              									<option>蔬菜</option>
+              									<option>水果</option>
+              									<option>肉类</option>
+              									<option>调味料</option>
+            								</select>
+				      					</div>
+				      					<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="rapidCatAdd()" title="添加分类" >添加分类</a>
+				      					<span id="category_add" style="display:none;">
+              								<input class="input-sm" type="text" size="10" name="addedCategoryName" style="border: 1px solid #ccc;"/>
+               								<a href="javascript:void(0)" onclick="addCategory()" title="确定" class="btn btn-primary btn-xs">确定</a>
+               								<a href="javascript:void(0)" onclick="return goCatPage()" title="分类管理" class="btn btn-primary btn-xs">分类管理</a>
+               								<a href="javascript:void(0)" onclick="hideCatDiv()" title="隐藏" class="btn btn-primary btn-xs" ><<</a>
+               							</span>             
+				      				</div>
+				      				<!--扩展分类-->
+				      				<div class="form-group">
+				      					<label for="goods-other-cate" class="col-sm-2 control-label">扩展分类:</label>
+				      					<div class="col-sm-2">
+				      						<input type="button" class="btn btn-sm btn-primary" onclick="addOtherCate(this.parentNode)" value="添加" />
+				      						<!-- TODO:扩展分类部分修改-->
+				      					</div>
+				      				</div>
+				      				<!--商品品牌-->
+				      				<div class="form-group">
+				      					<label for="goods-brand" class="col-sm-2 control-label">商品品牌:</label>
+				      					<div class="col-sm-2">
+				      						<select class="form-control input-sm" id="goods-brand" name="goods-brand">
+				      							<option>阿玛尼</option>
+			      							</select>
+				      					</div>
+				      					<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="rapidBrandAdd()" title="添加品牌">添加品牌</a>
+				      					<span id="brand_add" style="display:none;">
+				      						<input class="input-sm" type="text" size="10" name="addedBrandName" style="border: 1px solid #ccc;" />
+				      						<a href="javascript:void(0)" onclick="addBrand()" title="确定" class="btn btn-primary btn-xs">确定</a>
+				      						<a href="javascript:void(0)" onclick="return goBrandPage" title="品牌管理" class="btn btn-primary btn-xs">品牌管理</a>
+				      						<a href="javascript:void(0)" onclick="hideBrandDiv()" title="隐藏" class="btn btn-primary btn-xs"><<</a>
+			      						</span>
+				      				</div>
+				      				<!--本店售价-->
+				      				<div class="form-group">
+				      					<label for="shop_price" class="col-sm-2 control-label">本店售价:</label>
+				      					<div class="col-sm-2">
+				      						<input class="form-control input-sm" id="shop_price" name="shop-price" type="price" />
+			      						</div>
+		      						</div> 
+				      			</form>
+				      		</div>
+				      		<!--详细信息 -->
+				      		<div class="tab-pane" id="detail-tab">
+				      			<h1>hhhhh</h1>
+				      		</div>
+				      		<div class="tab-pane" id="mix-tab">
+				      			<h1>hhhhh</h1>
+				      		</div>
+			      		</div>
+			      	</div>
+      			</div>
+      		</div>
+      	</section>
+	</div>
+{/block}
+{block name="script"}
+	<script>
+		$(function () {
+			 //Colorpicker
+        	$(".my-colorpicker1").colorpicker();
+        	//color picker with addon
+        	$(".my-colorpicker2").colorpicker();
+		});
+/**
+* 帮助信息的显隐函数
+*/
+		function showNotice(objId) {
+			var obj = document.getElementById(objId);			
+		  	if (obj) {
+		    	if (obj.style.display != "block") {
+		      		obj.style.display = "block";
+		    	} else {
+		      		obj.style.display = "none";
+		    	}
+		  	}
+		}
+/**
+* 添加分类的显示函数
+*/
+		function rapidCatAdd() {
+      		var cat_div = document.getElementById("category_add");
+      		if(cat_div.style.display != '') {
+          		var cat = document.forms['theForm'].elements['addedCategoryName'];
+          		cat.value = '';
+          		cat_div.style.display = '';
+      		}
+  		}
+/**
+* 添加品牌的显示函数
+*/
+		function rapidBrandAdd() {
+			var brand_div = document.getElementById("brand_add");
+			if(brand_div.style.display != '') {
+				var brand = document.forms['theForm'].elements['addedBrandName'];
+				brand.value = '';
+				brand_div.style.display = '';
+			}
+		}
+/**
+* 添加分类
+*/ 		
+  		 function addCategory() {
+      		var parent_id = document.forms['theForm'].elements['cat_id'];
+      		var cat = document.forms['theForm'].elements['addedCategoryName'];
+	      	if(cat.value.replace(/^\s+|\s+$/g, '') == '') {
+	          alert(category_cat_not_null);
+	          return;
+	      	}
+      		var params = 'parent_id=' + parent_id.value;
+      		params += '&cat=' + cat.value;
+      		//TODO:添加分类的ajax方法
+      		//Ajax.call('category.php?is_ajax=1&act=add_category', params, addCatResponse, 'GET', 'JSON');
+  			}
+/**
+* 转到分类管理页面
+*/ 
+    		function goCatPage() {
+        		if(confirm(go_category_page)) {
+        			//TODO:更改分类管理页面的地址
+            		//window.location.href='category.php?act=add';
+        		} else {
+           			 return;
+        		}
+    		}
+/**
+* 添加分类的隐藏函数
+*/
+    		 function hideCatDiv() {
+      			var category_add_div = document.getElementById("category_add");
+      			if(category_add_div.style.display != null) {
+          			category_add_div.style.display = 'none';
+      			}
+  			}
+/**
+* 添加品牌的隐藏函数
+*/
+			function hideBrandDiv() {
+				var brand_add_div = document.getElementById("brand_add");
+				if(brand_add_div.style.display != null) {
+					brand_add_div.style.display = 'none';
+				}
+			}
+/**
+* 添加扩展分类
+*/ 			
+  			 function addOtherCate(conObj) {
+      		 	var sel = document.createElement("SELECT");
+      			var selCat = document.forms['theForm'].elements['cat_id'];
+
+      			for (i = 0; i < selCat.length; i++) {
+	          		var opt = document.createElement("OPTION");
+	          			opt.text = selCat.options[i].text;
+	          			opt.value = selCat.options[i].value;
+	          		if (Browser.isIE) {
+	              		sel.add(opt);
+	          		} else {
+	              		sel.appendChild(opt);
+	          		}
+      			}
+      			conObj.appendChild(sel);
+      			sel.name = "other_cat[]";
+      			sel.onChange = function() {checkIsLeaf(this);};
+  			}
+	</script>
+	
+{/block}

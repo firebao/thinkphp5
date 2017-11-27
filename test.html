@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>TEST</h1>
+	<h2>aaa</h2>
+	<p id="demo">我的第一个段落</p>
+	<button type="button" onclick="document.write(Date())">click</button>
+	<script>
+		document.getElementById("demo").innerHTML="改变后的段落" + "</br>";
+		document.write(Date() + "</br>");
+		var c = 11;
+		console.log(c);
+		console.log(console);
+		console.log(16+"volvo");
+		var person = {"firstName" : "clark",
+					  "lastName" : "bob",
+					  "age" : 50,
+					  "fullName" : function(){ return this.firstName + "." + this.lastName}};
+		document.write(person.firstName + "</br>");
+		document.write(person.fullName + "</br>");
+		document.write(person.fullName() + "</br>");
+		
+		function myfunction()
+		{
+			var c = 12;		
+		}
+		myfunction();
+		document.write(c + "</br>");
+		
+		var str = "abcde";
+		document.write(str.constructor + "<br/>");
+		document.write(str.length + "<br/>");
+		document.write(str.prototype + "<br/>");
+		console.log("str=" + str);
+		
+		document.write("str at 4:" + str.charAt(4) + "</br>");
+		document.write("str utf8 at 4:" + str.charCodeAt(4) + "</br>");
+	</script>
+</body>
+</html>
