@@ -84,7 +84,7 @@ class User extends Bace
      * @param   null
      * @return  mixed 
      */
-    public function action_register()
+    public function actionRegister()
     {        
         $request = Request::instance();       
         if ($request->isAjax()) { 
@@ -142,7 +142,7 @@ class User extends Bace
      * @param   null
      * @return  mixed 
      */
-    public function login()
+    public function actionLogin()
     {
         return;
     }
