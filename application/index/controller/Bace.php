@@ -158,8 +158,8 @@ class Bace extends Controller
         //品牌列表信息
         $brand_list = Db::table('tp_brand')
             ->cache(true, WEIDO_CACHE_TIME)
-            ->field('id, parent_cat_id, logo, is_hot')
-            ->where("parent_cat_id>0")
+            ->field('brand_id, brand_name, brand_logo')
+            ->where("is_show = 1")
             ->select();
         $this->assign('brand_list', $brand_list);
     }
