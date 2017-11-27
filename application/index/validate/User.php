@@ -14,8 +14,13 @@ namespace app\home\validate;
 
 use think\Validate;
 
-class UserAddress extends Validate
+class User extends Validate
 {
-    protected $rule = [];
+    protected $rule = [
+        'username'          => 'require|min',
+        'phone'             => 'require',
+        'password'          => 'require',
+        'confirm_password'  => 'require'
+    ];
     protected $msg  = [];
 }
