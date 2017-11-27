@@ -35,111 +35,32 @@ class User extends Bace
      */
     public function _initialize()
     {
-        parent::_initialize();
-        //推荐
-        $affiliate = unserialize(Config::get('site.affiliate'));
-        $this->assign('affiliate', $affiliate); 
+        parent::_initialize();      
         $request = Request::instance();
         $action = $request->action();
-        //不需要登录的操作或自己验证是否登录(如ajax处理)的action
-        $not_login_arr = array(
-            'login',
-            'register',
-            'action_register',
-            'get_password',
-            'send_pwd_email',
-            'password', 
-            'signin', 
-            'add_tag', 
-            'collect', 
-            'return_to_cart', 
-            'logout', 
-            'email_list', 
-            'validate_email', 
-            'send_hash_mail', 
-            'order_query', 
-            'is_register', 
-            'check_email',
-            'clear_history',
-            'qpassword_name', 
-            'get_passwd_question',            
-            'check_answer',
-            'get_verify',
-            'get_phone_verify',
-            'get_phone_verify_code'
-        );
-        //user控制器的action列表 
-        $ui_arr = array(
-            'index',
-            'register',
-            'action_register',
-            'login', 
-            'profile', 
-            'order_list', 
-            'order_detail', 
-            'address_list', 
-            'collection_list',
-            'message_list', 
-            'tag_list', 
-            'get_password', 
-            'reset_password', 
-            'booking_list', 
-            'add_booking', 
-            'account_raply',
-            'account_deposit', 
-            'account_log', 
-            'account_detail', 
-            'act_account', 
-            'pay', 
-            'default', 
-            'bonus', 
-            'group_buy', 
-            'group_buy_detail', 
-            'affiliate', 
-            'comment_list',
-            'validate_email',
-            'track_packages', 
-            'transform_points',
-            'qpassword_name', 
-            'get_passwd_question', 
-            'check_answer',            
-            'delivery_info',
-            'get_verify',
-            'get_phone_verify',
-            'get_phone_verify_code'
-        );
-
-        //用户未登录，控制器action权限判断
-        if (empty(Session::get('user_id'))) {                      
-
-            //控制器操作不在未登录允许操作列表中
-            if (!in_array($action, $not_login_arr)) {              
-                if (in_array($action, $ui_arr)) {
-                    //如果需要登录,并是显示页面的操作，记录当前操作，用于登录后跳转到相应操作
-                    $this->back_url =  $request->url();
-                    //跳转到登录界面
-                    $this->redirect('user/login');
-                } else {
-                    //非法操作
-                    header('HTTP/1.0 404 Not Found');
-                    header('Content-Type:text/html; charset=utf-8');
-                    die('非法操作');
-                }
+        //判断用户是否已经登录
+        if (session('?user')) {
+            $user = session('user');
+            $user = Db::table('tp_users')->where("user_id = {$user['user_id']}")->find();   //从数据库更新用户信息
+            session('user', $user);
+            $this->user = $user;
+            $this->user_id = $user['user_id'];
+            $this->assign('user', $user);
+            $this->assign('user_id', $this->user_id);
+        } else {
+             //不需要登录的操作或自己验证是否登录(如ajax处理)的action
+            $not_login_arr = array(
+                'login','register','action_register','get_password','send_pwd_email','password', 
+                'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 
+                'validate_email', 'send_hash_mail', 'order_query', 'is_register', 'check_email',
+                'clear_history','qpassword_name', 'get_passwd_question','check_answer',
+                'get_verify','get_phone_verify','get_phone_verify_code'
+                );
+            //用户未登录，判断控制器操作访问权限,没有权限访问登录操作
+            if (!in_array($action, $not_login_arr)) {
+                $this->redirect('user/login');
             }
         }
-        //如果需要显示页面，对页面变量进行赋值
-        if (in_array($action, $ui_arr)) {
-            $this->assign_template();
-            //$this->assign('ur_here', $this->assign_ur_here(0, '用户中心'));
-            $this->assign('car_off', Config::get('site.anonymous_buy'));
-
-            //是否显示积分兑换 
-            if (!empty(Config::get('points_rule')) && unserialize(Config::get('points_rule'))) {
-                $this->assign('show_transform_points', 1);
-            }
-            $this->assign('helps', get_shop_help());        // 网店帮助
-        }
-        
     }
     /**
      * @desc    用户注册页面显示
@@ -152,12 +73,9 @@ class User extends Bace
         //用户已经登录，跳转到用户中心界面
         if ($this->user_id > 0) {
             $this->redirect('index/user/index');
-        }
-        //导航栏
-        $this->assign('ur_here', $this->assign_ur_here(0, '用户中心'));    
-        //注册是否关闭
-        $this->assign('shop_reg_closed', Config::get('site.shop_reg_closed'));
-        
+        }         
+        //注册是否关闭,如果注册关闭html页面显示注册关闭页面
+        $this->assign('shop_reg_closed', Config::get('site.shop_reg_closed'));        
         return $this->fetch();
     }
     /**
@@ -167,32 +85,35 @@ class User extends Bace
      * @return  mixed 
      */
     public function action_register()
-    {
-        
+    {        
         $request = Request::instance();       
-
-        if ($request->isAjax()) {
-            
-            if (!Config::get('site.shop_reg_closed')) {  //关闭注册
-                
-                return "<div>非法操作:注册功能已关闭！</div>";
-                
+        if ($request->isAjax()) { 
+            //关闭注册
+            if (!Config::get('site.shop_reg_closed')) {                  
+                return "<div>非法操作:注册功能已关闭！</div>";                
             } else {
-
-                $user   = new UserModel();
-                $sms    = new LogSms();
-                $result = array();
-                $check_phone_code_result = array();
-                $session_id = session_id();             //会话ID
-                
+                //表单数据后台验证
+                $data = array();
+                $data['username'] = I('username/s', '');
+                $data['phone'] = I('phone/s', '');
+                $data['password'] = I('password/s', '');
+                $data['confirm_password'] = I('confirm_password/s', '');
+                $result = $this->validate($data, 'User');
+                //变淡数据验证失败
+                if ($result !== false) {
+                    return $result;
+                }
+                //创建用户模型对象，sms模型对象
+                $user = new UserModel();
+                $sms = new LogSms();                
                 //验证手机验证码是否正确
                 $check_phone_code_result = $sms->check_sms();
-                if ($check_phone_code_result['status'] != 1)    return $check_phone_code_result;
-                
-                //模型层用户注册
-                $result = $user->regist();
-                
-                    if ($result['status'] > 0) {//注册成功
+                if ($check_phone_code_result['status'] != 1)    
+                    return $check_phone_code_result;              
+                //用户模型层用户注册
+                $result = $user->regist($data);
+                    //注册成功
+                    if ($result['status'] > 0) {
                         //加载用户信息
                         $user = $user->user_id;
                         if (!empty($user)) {
@@ -204,89 +125,29 @@ class User extends Bace
             return $result;                                                 
         }
     }
-    //验证用户注册邮箱
-    public function validate_email()
-    {
-        $request = Request::instance();
-        $hash = $request->get('hash', '', 'trim');
-        if ($hash) {
-            //hash解码
-            $id = register_hash('decode', $hash);
-            if ($id > 0) {
-                $user = UserModel::get($id);
-                $user->is_validated = 1;
-                $user->save();
-                $this->success('激活成功',url('user/index'));
-                //show_message(sprintf($_LANG['validate_ok'], $row['user_name'], $row['email']),$_LANG['profile_lnk'], 'user.php');
-            }
-        }
-        $this->error('激活失败');
-        //show_message($_LANG['validate_fail']);
-    }
-    //用户登录页面
+ 
+     /**
+     * @desc    用户登录页面显示
+     * @access  public
+     * @param   null
+     * @return  mixed 
+     */
     public function login()
     {
-        $request = Request::instance();
-        //登录请求处理
-        if ($request->isAjax()){
-            //请求变量处理
-            $username = $request->post('user_name', '', 'trim');
-            $password = $request->post('password', '' , 'trim');
-            
-            //验证码处理
-            $captcha = Config::get('site.captcha');           
-            if (($captcha & CAPTCHA_LOGIN) && (!($captcha & CAPTCHA_LOGIN_FAIL) || (($captcha & CAPTCHA_LOGIN_FAIL) && Session::get('login_fail') > 2))) {
-                if (!$request->has('captcha', 'post', true)) {
-                    $this->error('验证码不能为空！');                    
-                }   
-                //判断验证码是否正确
-                if (!captcha_check($request->post('captcha'))) {
-                    $this->error('验证码错误!');
-                }
-            }
-            //用户登录操作
-            $user = UserModel::get(['user_name' => $username]);
-            if ($user->login($username, $password, $request->has('remember_me','post'))) {
-                $this->success('登录成功', 'user/index');
-            } else {
-                $_SESSION['login_fail'] ++ ;
-                $this->error('登录失败');
-            }
-        //登录界面显示
-        } else { 
-            if (empty($this->back_act)) {
-                if (empty($this->back_act) && isset($_SERVER['HTTP_REFERER'])) {
-                    $this->back_url = strpos($_SERVER['HTTP_REFERER'], 'user.html') ? url('user/index') : $_SERVER['HTTP_REFERER'];
-                } else {
-                    $this->back_act = url('user/index');
-                }
-            }        
-            
-            //验证码相关设置
-            $captcha = intval(Config::get('site.captcha'));
-            $this->assign('enabled_captcha', 0);
-            if (($captcha & CAPTCHA_LOGIN) && (!($captcha & CAPTCHA_LOGIN_FAIL) || (($captcha & CAPTCHA_LOGIN_FAIL) && $_SESSION['login_fail'] > 2))) {
-                $this->assign('enabled_captcha', 1);
-            }
-            //模板变量赋值
-            $this->assign('back_act', $this->back_act);
-            return $this->fetch();  
-        }  
+        return this->fetch();
+    }
+      /**
+     * @desc    ajax数据用户登录
+     * @access  public
+     * @param   null
+     * @return  mixed 
+     */
+    public function login()
+    {
+        return;
     }
     public function index()
-    {
-        $user = UserModel::get(Session::get('user_id'));
-        $rank_info = $user->get_user_rank();
-        if ($rank_info) {
-            $this->assign('rank_name', sprintf('您的等级是 %s ', $rank_info['rank_name']));
-            if (!empty($rank['next_rank_name'])) {
-                $this->assign('next_rank_name', sprintf(',您还差 %s 积分达到 %s', $rank_info['next_rank'], $rank_info['next_rank_name']));
-            }
-        }
-        $this->assign('rank_name',111);
-        //$this->assign('info',        get_user_default($user_id));
-        //$this->assign('user_notice', $_CFG['user_notice']);
-        //$this->assign('prompt',      get_user_prompt($user_id));
+    {       
         return $this->fetch();
     }
     /**
@@ -311,10 +172,12 @@ class User extends Bace
             }
         }
     }
-    public function pay()
-    {
-        echo 'pay';
-    }
+    /**
+     * @desc    用户登出操作
+     * @access  public
+     * @param   null
+     * @return  mixed
+     */
     public function logout()
     {
         if (empty($this->back_url) && isset($_SERVER['HTTP_REFERER'])) {
@@ -324,17 +187,23 @@ class User extends Bace
         $user->logout();
         $this->success('退出登录成功', url('index/index'));
     }
-    public function profile()
-    {
-        $user = UserModel::get(Session::get('user_id'));
-        $this->assign('user', $user);
-        return $this->fetch();
-    }
+     /**
+     * @desc    我的收藏页面
+     * @access  public
+     * @param   null
+     * @return  mixed
+     */
     public function favorite()
     {
         echo "我的收藏";
     }
-    public function order()
+     /**
+     * @desc    订单列表页面
+     * @access  public
+     * @param   null
+     * @return  mixed
+     */
+    public function orderList()
     {
         echo "我的订单";
     }
