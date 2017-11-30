@@ -82,3 +82,11 @@ function get_user_info($user_id_or_name, $type = 0, $oauth = '')
 function encrypt($str){
     return md5(Config::get("AUTH_CODE").$str);
 }
+/**
+ * @desc   获取网站商品的分类树信息
+ * @access public
+ * @param  null
+ * @return array  分类树数组              
+ */
+function weido_get_goods_category_tree(){
+}

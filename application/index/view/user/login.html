@@ -8,75 +8,112 @@
 				margin-top: 12px;
 				padding-left: 10px;
 				padding-bottom: 2px;
-				font-weight: bold;
 				color: OrangeRed;
 			}
 		</style>
 	</head>
-	<body class="hold-transition skin-green-light" style="height:100%">
-		<div class="wrapper" style="background-color:#d2d6de">
-			{include file="Public/header"/}
-			{include file="Public/content_header"/}
-    		<div class="login-box register-page">    	
-      			<div class="login-logo">
-	        		<a class="text-green" href="{:url('user/index')}">
-	        			<b>WeiDo</b>
-	        			<span style="font-size:24px">围兜网</span>
-	    			</a>
-      			</div>
-      			<div class="login-box-body">       			
-        			<div class="alert alert-warning alert-dismissable login-msg" style="margin-bottom:15px" hidden>
-                    	                 	
-                  	</div>
-    				<form id="login" action="{:url('user/login')}" method="post">          	
-			          	<div class="form-group has-feedback">
-			            	<input type="text" class="form-control" id="email" name="user_name" placeholder="用户名" required>
-			            	<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-			          	</div>
-			          	<div class="form-group has-feedback">
-			            	<input type="password" class="form-control" id="password" name="password" placeholder="密码" required>
-			            	<span class="glyphicon glyphicon-lock form-control-feedback"></span>
-			          	</div>			         			         	
-			          	{if condition = "$enabled_captcha"}
-			          	<div class="form-group has-feedback">
-			            	<input type="text" class="form-control" id="verifycode" name="captcha" placeholder="验证码" required>
-			            	<span class="glyphicon glyphicon-edit form-control-feedback"></span>
-			          	</div>
-			   		  	<div class="verifycode">
-			   				<img class="verifyimg reloadverify img-rounded" alt="点击切换" src="{:captcha_src()}" style="border:1px solid #ccc; margin-bottom:15px; cursor:pointer;">
-			   				<a href="javascript:;" class="reloadverify_a">换一张?</a>
-			   		  	</div>
-			          	{/if}
-			          	<div class="row">
-			            	<div class="col-xs-8">
-				              	<div class="checkbox icheck">
-				                	<label>
-					                  	<div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
-					                  		<input id="agree" type="checkbox" name="remember_me"  style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
-					                  		<ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
-					                  	</div> 
-					                  	记住我？
-				                	</label>
-				              	</div>
-			            	</div><!-- /.col -->
-			            	<div class="col-xs-4">
-			              		<button id="submit" type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
-			            	</div><!-- /.col -->
-			          	</div>
-			        </form>
-			        <div class="social-auth-links text-center">
-          				<p>- OR -</p>
-          				<a href="{:url('qpassword')}" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa  fa-question fa-fw"></i>密码问题找回密码</a>
-          				<a href="{:url('get_password')}" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-envelope-square fa-fw"></i>注册邮箱找回密码</a>
-        			</div>					
-      			</div><!-- /.form-box -->
-    		</div><!-- /.register-box -->
-    	</div>
-		<!-- 用户协议模态框 -->
-		{include file="Public/agreement"}
+	<body class="modal-open" style="padding-right: 17px;">		
+		{include file="Public/mobile_menu"}
+		<div id="page">			
+			{include file="Public/header"}
+			{include file="Public/nav"}
+			<div class="container " >
+				<div class="row">
+					<div class="col-lg-7 col-md-7 col-sm-6 hidden-xs">
+						
+					</div>
+					<div class="col-lg-5 col-md-5 col-sm-6 col-xs-12">
+			    		<div class="login-box">    	
+			      			<div class="login-logo">
+				        		<a class="text-green" href="{:url('index/index')}">
+				        			<b>WeiDo</b>
+				        			<span style="font-size:24px">用户登录</span>
+				    			</a>
+			      			</div>
+			      			<div class="login-box-body">       			
+			        			<div class="alert alert-warning alert-dismissable login-msg" style="margin-bottom:15px" hidden>
+			                    	                 	
+			                  	</div>
+			    				<form id="login" action="{:url('user/action_login')}" autocomplete="new-password" method="post">
+			          				<input type="text" value="{$referurl}" name="referurl" id="referurl" hidden>
+			          				<div class="form-group has-feedback">
+			            				<input type="text" class="form-control" id="username" name="username" autocomplete="off" onpaste="return false;" placeholder="用户名或者手机号码" style="ime-mode:disabled;">
+			            				<span class="glyphicon glyphicon-user form-control-feedback"></span> 
+			          				</div>						          	
+						          	<div class="form-group has-feedback">
+						            	<input type="password" class="form-control" id="password" name="password" autocomplete="new-password" onpaste="return false;" placeholder="密码" style="ime-mode:disabled;">
+						            	<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+						          	</div>
+						          	<div class="row">
+						          		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								          	<div class="form-group has-feedback">
+								            	<input type="text" class="form-control" id="captcha" autocomplete="off" onpaste="return false;"  name="captcha" placeholder="验证码" style="ime-mode:disabled;">
+								            	<span class="glyphicon glyphicon-comment form-control-feedback"></span>
+								          	</div>
+							          	</div>
+							          	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							          		<div class="form-group has-feedback">						          		
+								          		<img style="vertical-align:middle;cursor:pointer;height:34px; float:right" class="verifyImg" src="{:url('index/user/get_verify')}" alt="captcha"  onclick="javascript:fnRefreshVerify()"/> 
+	                           				</div>
+							          	</div>
+						          	</div>
+						          	<div class="row">
+						          		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								          	<div class="checkbox icheck">
+							                	<label>
+								                  	<div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
+								                  		<input id="agree" type="checkbox" name="remember" onchange="agreeRule(this.value);" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+								                  		<ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+								                  	</div> 
+								                  	&nbsp;&nbsp;记住密码										
+							                	</label>					               	
+							              	</div>
+						              	</div>
+						              	<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							              	<div class="forget-pwd">
+		                            			<a href="{:url('index/user/forget_pwd')}">忘记密码？</a>					          	
+							            	</div>
+						            	</div>
+					            	</div>
+					            	<div>
+					              		<button id="submit" type="submit" class="btn btn-primary btn-block btn-flat" >登录</button>
+					            	</div>
+						        </form>
+								<div class="social-auth-links text-center">
+			          				<p style="margin-top:10px">- OR -</p>
+			          				<div>
+					              		<button id="submit" type="submit" class="btn btn-primary btn-block btn-flat" >没有账号, 去注册</button>
+					            	</div>
+					            	<p style="margin-top:10px">- OR -</p>			         				
+                 					<div class="third-login">
+                 						<p>第三方账号登录:</p> 
+                            			<ul>
+                            			                         
+                                        <li class="spacer"></li>
+                                        <li>
+                                            <a class="justclix" href="{:url('LoginApi/login',array('oauth'=>'weixin'))}" title="weixin">
+                                                <i class="weixin-icon"></i>
+                                                <span>微信登录</span>
+                                            </a>
+                                        </li>                                   
+                                        <li class="spacer"></li>
+                                        <li>
+                                            <a class="justclix" href="{:url('LoginApi/login',array('oauth'=>'qq'))}" title="QQ">
+                                                <i class="QQ-icon"></i>
+                                                <span>QQ登录</span>
+                                            </a>
+                                        </li>                                                                  
+			        				</div>
+		        				</div>
+			      			</div><!-- /.form-box -->
+			    		</div><!-- /.register-box -->
+	    			</div>
+	    		</div>
+	    	</div>    				
+			{include file="Public/footer"}
+		</div>
 	    <script src="__STATIC__/plugin/iCheck/icheck.min.js"></script>
 		<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 	    <script src="__JS__/index/login.js"></script>
-
 	</body>
 </html>

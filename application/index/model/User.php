@@ -25,33 +25,16 @@ class User extends Model
     /**
      * @desc   用户注册
      * @access public
-     * @param  null
+     * @param  array $data 注册数据
      * @return array('status', 'msg')
      */
-    public function regist()
+    public function regist($data)
     {
-       $request = Request::instance();
-       $user_name = $request->post('username/s', '');
-       $mobile_phone = $request->post('phone/s', '');
-       $password = $request->post('password/s', '');
-       $confirm_password = $request->post('confirm_password/s', '');
        
-       //验证用户名、手机号码、密码是否为空
-       if(!$user_name || !$password || !$mobile_phone) {
-           return array('status' => -1, 'msg'=>'请输入用户名/手机号码/密码');
-       }
-       //验证两次密码是否匹配
-       if($confirm_password != $password) {
-           return array('status'=>-1, 'msg'=>'两次输入密码不一致');
-       }
-       //验证是否存在用户名
-       if(get_user_info($user_name, 1) || get_user_info($mobile_phone, 2)) { 
-           return array('status'=>-1,'msg'=>'账号已存在');
-       }
        //注册数据save
-       $this->user_name = $user_name;
-       $this->mobile_phone = $mobile_phone;      
-       $this->password = encrypt($password);
+       $this->user_name = $data['username'];
+       $this->mobile_phone = $data['phone'];      
+       $this->password = encrypt($data['password']);
        $this->reg_time = time();
        $this->last_login = time();
        
@@ -63,27 +46,71 @@ class User extends Model
            return array('status' => -1, 'msg' => '注册失败');
        }
     }
-    
-    public function login($username, $password, $remember)
+    /**
+     * @desc   用户登录
+     * @access public
+     * @param  array $data 用户登录信息数组
+     * @return array('status', 'msg')
+     */
+    public function login($data)
     {
-        if ($this->password != md5($password)){
-            return false;
-        } else {
-            //设置session
-            Session::set('user_id', $this->user_id);
-            Session::set('user_name', $this->user_name);
-            Session::set('email', $this->email);
-            
-            //设置cookie
-            if ($remember == 'on'){
-                Cookie::set('user_id', $this->user_id);
-                Cookie::set('user_name', $this->user_name);
-            }
-            update_user_info();      // 更新用户信息
-            recalculate_price();     // 重新计算购物车中的商品价格：目的是当用户登录时享受会员价格，当用户退出登录时不享受会员价格
-            return true;
-        }    
+        $result = array();
+        $username = $data['username'];
+        $password = $data['password'];
+        if(!$username || !$password)
+            $result = array('code' => 0, 'msg' => '请填写账号或密码');
+        $user = $this->where("mobile_phone", $username)->whereOr('user_name', $username)->find();
+        if(!$user) {
+            $result = array('code' => -1, 'msg' => '账号不存在!');
+        } elseif (encrypt($password) != $user['password']) {
+            $result = array('code' => -2, 'msg'=>'密码错误!');
+        } elseif ($user['is_lock'] == 1) {
+            $result = array('code' => -3, 'msg'=>'账号异常已被锁定！！！');
+        }else{
+            //查询用户信息之后, 查询用户的登记昵称
+            $user_rank = $user['user_rank'];
+            $level_name = Db::table("tp_user_rank")->where("rank_id", $user_rank)->value("rank_name");
+            $user['level_name'] = $level_name;
+        
+            $result = array('code'=>1,'msg'=>'登陆成功','result'=>$user);
+        }
+        return $result;
     }
+     /**
+     * @desc   第三方用户登录
+     * @access public
+     * @param  array $data
+     * @return array('status', 'msg')
+     */
+    public function thirdLogin($data = array())
+    {
+    }
+     /**
+     * @desc   修改密码
+     * @access public
+     * @param  string $user_id
+     * @param  string $new_password
+     * @return array('status', 'msg')
+     */
+    public function editPass($user_id, $new_password)
+    {
+    }
+     /**
+     * @desc   修改用户资料
+     * @access public
+     * @param  string $user_id
+     * @param  string $new_data
+     * @return array('status', 'msg')
+     */
+    public function editUser($user_id, $new_data)
+    {
+    }
+     /**
+     * @desc   用户登出
+     * @access public
+     * @param  null
+     * @return void
+     */
     public function logout()
     {
         //删除session
@@ -94,14 +121,34 @@ class User extends Model
         Cookie::delete('user_id');
         Cookie::delete('user_name');
     }
+     /**
+     * @desc    取得当前用户信息
+     * @access  public
+     * @param   int      $user_id
+     * @return  array('status', 'msg')
+     */
+    public function getUserInfo($user_id)
+    {
+        
+    }
+     /**
+     * @desc    取得当前用户的最后一笔订单信息
+     * @access  public
+     * @param   int      $user_id
+     * @return  array
+     */
+    public function getLastOrder($user_id)
+    {
+        
+    }
     /**
-     * 取得用户等级信息
+     * @desc    取得用户等级信息
      * @access  public
      * @return  正常情况：array('rank_name', 'next_rank_name','next_rank') 
      *          特殊等级：array('rank_name')  
      *          获取失败：array()
      */
-    public function get_user_rank()
+    public function getUserRank()
     {
         $user_rank = Session::get('user_rank');
         
@@ -139,30 +186,80 @@ class User extends Model
             return array();
         }
     }
+     /**
+     * @desc    取得当前用户账户资金记录
+     * @access  public
+     * @param   int      $user_id
+     * @return  array
+     */
+    public function getAccountLog($user_id)
+    {
+    }
+     /**
+     * @desc    取得当前用户的优惠券信息
+     * @access  public
+     * @param   int      $user_id
+     * @return  array
+     */
+    public function getCoupon($user_id)
+    {
+    }
+     /**
+     * @desc    取得当前用户的商品收藏列表
+     * @access  public
+     * @param   int      $user_id
+     * @return  array
+     */
+    public function getGoodsCollect($user_id)
+    {
+    }
+     /**
+     * @desc    取得当前用户评论信息
+     * @access  public
+     * @param   int      $user_id
+     * @return  array
+     */
+    public function getComment($user_id)
+    {
+    }
     /**
-     * 查询用户手机是否存在
+     * @desc   查询用户手机是否存在
      * @access public
      * @param  string   $user_phone     电话号码
-     * @param  string   $user_id        用户id(默认为0)
      * @return array
      */
-    public function check_user_phone_exist($user_phone, $user_id = 0)
+    public function checkUserPhoneExist($user_phone)
     {
-        $result = array();
-        $request = Request::instance();
-        $user_id = $user_id > 0 ? $user_id : $request->post('userId/d');
-               
+        $result = array();                      
         $map = array();
-        $map['flag']            = 1;
         $map['mobile_phone']    = $user_phone;        
         $result = $this->where($map)->select();
 
-        if (!$result) {
+        if (empty($result)) {
             $result = array('status' => 1,  'msg' => '电话号码未被占用');          //电话号码未被占用，返回状态码1
         } else {
             $result = array('status' => -1,  'msg' => '电话号码已占用');           //电话号码已占用，返回状态码-1
         }       
         return $result ;
     }
-    
+     /**
+     * @desc   查询登录名是否存在
+     * @access public
+     * @param  string   $user_phone     用户名
+     * @return array
+     */
+    public function checkUserNameExist($username)
+    {
+        $result = array();
+        $map = array();
+        $map['user_name']    = $username;
+        $result = $this->where($map)->select();
+        
+        if (empty($result)) {
+            $result = array('status' => 1,  'msg' => '登录名未被占用');          //登录名未被占用，返回状态码1
+        } else {
+            $result = array('status' => -1,  'msg' => '登录名已占用');           //登录名已占用，返回状态码-1
+        }
+        return $result;       
+    }
 }

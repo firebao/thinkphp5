@@ -22,10 +22,7 @@ class Index extends Bace
         //模板变量赋值        
         $this->assign('flash_theme',     Config::get('site.flash_theme'));  // Flash轮播图片模板    
         $this->assign('feed_url',        (Config::get('site.rewrite') == 1) ? 'feed.xml' : 'feed.php'); //RSS URL
-    
-        $category = new Category();
 
-        $this->assign('categories',      $category->get_categories_tree()); // 分类树
 //        $this->assign('helps',           get_shop_help());       // 网店帮助
 //         $this->assign('top_goods',       get_top10());           // 销售排行
     

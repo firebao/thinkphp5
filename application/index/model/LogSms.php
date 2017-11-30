@@ -31,12 +31,12 @@ class LogSms extends Model
 	 * @param  mixed  $verfy_code    验证码  
 	 * @return array  {'status', 'msg'}  
 	 */
-	public function send_sms($phone_number, $content, $verfy_code)
+	public function sendSms($phone_number, $content, $verfy_code)
 	{
 		//变量定义,请求参数，user_id,用户ip
 	    $request = Request::instance();
 		$user_id = Session::get('user_id');
-		$ip = get_client_ip();
+		$ip = real_ip();
 		
 	    //检测网站配置项是否打开短信验证码验证是否正确
 	    if (Config::get('site.send_sms_verfy') == 1) {
@@ -76,7 +76,7 @@ class LogSms extends Model
 			return array('status' => -20003, 'msg' => '请勿频繁发送短信验证!');
 		}
 		//相同ip发送验证码2分钟只能点击发送1次
-		if ($ip_result->getAttr('create_time') != '' && ((time() - strtotime($ip_result['create_time'])) < 120)){		    
+		if ($ip_result->getAttr('create_time') != '' && ((time() - strtotime($ip_result->getAttr('create_time'))) < 120)){		    
 			return array('status' => -20004, 'msg' => '请勿频繁发送短信验证!');
 		}
 		
@@ -92,7 +92,6 @@ class LogSms extends Model
 		$data['sms_code']          = $verfy_code;             //短信发送的验证码
 		$data['sms_ip']            = $ip;                     //短息发送用户的ip地址
 		$data['create_time']       = date('Y-m-d H:i:s');     //短信发送时间
-		
 		$this->data($data);
 		$this->save();
 		
@@ -108,15 +107,14 @@ class LogSms extends Model
 	 * @param  null
 	 * @return array {'status', 'msg'}
 	 */
-	public function check_sms()
+	public function checkSms()
 	{
 	    $result    = array();
 	    $request   = Request::instance();
 	    $mobile    = $request->post('phone');
 	    $code      = $request->post('phone-code/s');	    
 	    $now_time  = date('Y-m-d H:i:s');
-	    
-
+        $map = array();
 	    $map['sms_phone_number'] = $mobile;    //手机号码
 	    $map['sms_return_code'] = 1;           //短信发送成功标志
 	    $result = $this->where($map)->order('sms_id DESC')->find();
@@ -132,6 +130,8 @@ class LogSms extends Model
 	            return array('status' => '-2', 'msg' => '验证码错误，请重新输入');
 	        }
 	        return array('status' => '1', 'msg' => '验证通过');
+	    } else {
+	        return array('status'=> '-2', 'msg' => '验证码错误，请重新输入');
 	    }
     }
     /**

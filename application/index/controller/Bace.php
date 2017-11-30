@@ -151,14 +151,15 @@ class Bace extends Controller
         //网站配置
         $this->assign('site', Config::get('site'));
         //面包屑导航与页面标题
-        $this->assign('ur_here', $this->assign_ur_here()); 
+        $this->assign('ur_here', $this->assignNav()); 
         //商品分类树信息
-        $this->assign('cate_tree', weido_get_goods_category_tree);
+        $category = new \app\index\model\Category();
+        $this->assign('cate_tree', $category->getCategoriesTree());
         //品牌列表信息
         $brand_list = Db::table('tp_brand')
             ->cache(true, WEIDO_CACHE_TIME)
-            ->field('id, parent_cat_id, logo, is_hot')
-            ->where("parent_cat_id>0")
+            ->field('brand_id, brand_name, brand_logo')
+            ->where("is_show = 1")
             ->select();
         $this->assign('brand_list', $brand_list);
     }
@@ -169,15 +170,14 @@ class Bace extends Controller
       * @param   null
       * @return  array
       */
-     public function assignNav()
+     protected function assignNav()
      {
-        $navigate = include APP_PATH.'home/navigate.php';    
-        $location = strtolower('Home/'.CONTROLLER_NAME);
-        $arr = array(
-            '首页'=>'/',
-            $navigate[$location]['name']=>U('/Home/'.CONTROLLER_NAME),
-            $navigate[$location]['action'][ACTION_NAME]=>'javascript:void();',
-        );
-        return $arr;                                        
+         $request = Request::instance();
+         $navigate = include APP_PATH . 'index/navigate/navigate.php';    
+         $location = strtolower('Index/' . $request->controller());
+         $arr = array(
+             'title'=> $navigate[$location]['title'],          
+         );
+         return $arr;                                        
      }     
 }
