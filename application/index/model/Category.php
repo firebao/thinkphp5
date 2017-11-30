@@ -78,11 +78,7 @@ class Category extends Model
          //判断当前分类中全是是否是底级分类，如果是取出底级分类上级分类， 如果不是取当前分类及其下的子分类
          if ($count || $tree_id == 0) {             
              $res = $this->where($map)->field('cat_id,cat_name,parent_id,is_show')->order('sort_order,cat_id')->select();         
-<<<<<<< HEAD
-             foreach ($res AS $row) {                 
-=======
              foreach ($res as $row) {                 
->>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
                  if ($row['is_show']) {     
                     $three_arr[$row['cat_id']]['id']   = $row['cat_id'];
                     $three_arr[$row['cat_id']]['name'] = $row['cat_name'];
