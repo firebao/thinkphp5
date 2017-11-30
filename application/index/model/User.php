@@ -49,6 +49,7 @@ class User extends Model
     /**
      * @desc   用户登录
      * @access public
+<<<<<<< HEAD
      * @param  array $data 用户登录信息数组
      * @return array('status', 'msg')
      */
@@ -106,6 +107,64 @@ class User extends Model
     {
     }
      /**
+=======
+     * @param  string $username 用户名
+     * @param  string $password 用户密码
+     * @param  string $remember 记住我
+     * @return array('status', 'msg')
+     */
+    public function login($username, $password, $remember)
+    {
+        if ($this->password != encrypt($password)){
+            return array('status' => -1, 'msg' => '密码错误');
+        } else {
+            //设置session
+            Session::set('user_id', $this->user_id);
+            Session::set('user_name', $this->user_name);
+            Session::set('email', $this->email);            
+            //设置cookie
+            if ($remember == 'on'){
+                Cookie::set('user_id', $this->user_id);
+                Cookie::set('user_name', $this->user_name);
+            }
+            // 更新用户信息
+            update_user_info(); 
+            // 重新计算购物车中的商品价格：目的是当用户登录时享受会员价格，当用户退出登录时不享受会员价格
+            recalculate_price();     
+            return array('status' => 1, 'msg' => '登录成功');
+        }    
+    }
+     /**
+     * @desc   第三方用户登录
+     * @access public
+     * @param  array $data
+     * @return array('status', 'msg')
+     */
+    public function thirdLogin($data = array())
+    {
+    }
+     /**
+     * @desc   修改密码
+     * @access public
+     * @param  string $user_id
+     * @param  string $new_password
+     * @return array('status', 'msg')
+     */
+    public function editPass($user_id, $new_password)
+    {
+    }
+     /**
+     * @desc   修改用户资料
+     * @access public
+     * @param  string $user_id
+     * @param  string $new_data
+     * @return array('status', 'msg')
+     */
+    public function editUser($user_id, $new_data)
+    {
+    }
+     /**
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
      * @desc   用户登出
      * @access public
      * @param  null
@@ -245,13 +304,19 @@ class User extends Model
      /**
      * @desc   查询登录名是否存在
      * @access public
+<<<<<<< HEAD
      * @param  string   $user_phone     用户名
+=======
+     * @param  string   $user_phone     电话号码
+     * @param  string   $user_id        用户id(默认为0)
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
      * @return array
      */
     public function checkUserNameExist($username)
     {
         $result = array();
         $map = array();
+<<<<<<< HEAD
         $map['user_name']    = $username;
         $result = $this->where($map)->select();
         
@@ -261,5 +326,16 @@ class User extends Model
             $result = array('status' => -1,  'msg' => '登录名已占用');           //登录名已占用，返回状态码-1
         }
         return $result;       
+=======
+        $map['flag']        = 1;
+        $map['username']    = $username;
+        $result = $this->where($map)->selsct();
+        
+        if (!$result) {
+            $result = array('status' => 1,  'msg' => '登录名未被占用');          //登录名未被占用，返回状态码1
+        } else {
+            $result = array('status' => -1,  'msg' => '登录名已占用');           //登录名已占用，返回状态码-1
+        }       
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
     }
 }

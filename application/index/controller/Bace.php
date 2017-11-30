@@ -170,6 +170,7 @@ class Bace extends Controller
       * @param   null
       * @return  array
       */
+<<<<<<< HEAD
      protected function assignNav()
      {
          $request = Request::instance();
@@ -181,3 +182,18 @@ class Bace extends Controller
          return $arr;                                        
      }     
 }
+=======
+    public function assignNav()
+    {
+        $request = Request::instance();
+        $navigate = include APP_PATH . 'index/navigate/navigate.php';    
+        $location = strtolower('Index/' . $request->controller());
+        $arr = array(
+            '首页'=>'/',
+            $navigate[$location]['name'] => Url('/Index/' . $request->controller()),
+            $navigate[$location]['action'][$request->action()] => 'javascript:void();',
+        );
+        return $arr;                                        
+     } 
+}
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce

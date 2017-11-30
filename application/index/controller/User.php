@@ -39,7 +39,11 @@ class User extends Bace
      */
     public function _initialize()
     {
+<<<<<<< HEAD
         parent::_initialize();     
+=======
+        parent::_initialize();      
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
         $request = Request::instance();
         $action = $request->action();
         //判断用户是否已经登录
@@ -54,9 +58,17 @@ class User extends Bace
         } else {
              //不需要登录的操作或自己验证是否登录(如ajax处理)的action
             $not_login_arr = array(
+<<<<<<< HEAD
                 'login', 'action_login', 'register','action_register',
                 'get_phone_verify','get_phone_verify_code','get_verify', 
                 'index', 'is_register', 'phone_is_register', 
+=======
+                'login','register','action_register','get_password','send_pwd_email','password', 
+                'signin', 'add_tag', 'collect', 'return_to_cart', 'logout', 'email_list', 
+                'validate_email', 'send_hash_mail', 'order_query', 'is_register', 'check_email',
+                'clear_history','qpassword_name', 'get_passwd_question','check_answer',
+                'get_verify','get_phone_verify','get_phone_verify_code'
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
                 );
             //用户未登录，判断控制器操作访问权限,没有权限访问登录操作
             if (!in_array($action, $not_login_arr)) {
@@ -86,7 +98,11 @@ class User extends Bace
      * @param   null
      * @return  mixed 
      */
+<<<<<<< HEAD
     public function action_register()
+=======
+    public function actionRegister()
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
     {        
         $request = Request::instance();       
         if ($request->isAjax()) { 
@@ -96,6 +112,7 @@ class User extends Bace
             } else {
                 //表单数据后台验证
                 $data = array();
+<<<<<<< HEAD
                 $data['username'] = input('username/s', '');
                 $data['phone'] = input('phone/s', '');
                 $data['password'] = input('password/s', '');
@@ -104,12 +121,26 @@ class User extends Bace
                 //表单数据验证失败
                 if ($result !== true) {
                     $this->error($result);
+=======
+                $data['username'] = I('username/s', '');
+                $data['phone'] = I('phone/s', '');
+                $data['password'] = I('password/s', '');
+                $data['confirm_password'] = I('confirm_password/s', '');
+                $result = $this->validate($data, 'User');
+                //变淡数据验证失败
+                if ($result !== false) {
+                    return $result;
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
                 }
                 //创建用户模型对象，sms模型对象
                 $user = new UserModel();
                 $sms = new LogSms();                
                 //验证手机验证码是否正确
+<<<<<<< HEAD
                 $check_phone_code_result = $sms->checkSms();
+=======
+                $check_phone_code_result = $sms->check_sms();
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
                 if ($check_phone_code_result['status'] != 1)    
                     return $check_phone_code_result;              
                 //用户模型层用户注册
@@ -137,6 +168,7 @@ class User extends Bace
      * @return  mixed 
      */
     public function login()
+<<<<<<< HEAD
     {
         //用户已经登录，跳转到用户中心界面
         if ($this->user_id > 0) {
@@ -146,6 +178,23 @@ class User extends Bace
         //记录执行登录操作页面，以便登录成功后页面跳转
         $referurl = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : url("index/user/index");
         $this->assign('referurl',$referurl);
+=======
+    {
+        return this->fetch();
+    }
+      /**
+     * @desc    ajax数据用户登录
+     * @access  public
+     * @param   null
+     * @return  mixed 
+     */
+    public function actionLogin()
+    {
+        return;
+    }
+    public function index()
+    {       
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
         return $this->fetch();
     }
       /**
@@ -199,12 +248,15 @@ class User extends Bace
     	}
     	
     }
+<<<<<<< HEAD
     public function index()
     {       
         dump(Session::get());
         return '用户中心';
     }
 
+=======
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
     /**
      * @desc    用户登出操作
      * @access  public

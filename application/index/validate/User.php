@@ -8,16 +8,24 @@
 // +----------------------------------------------------------------------
 // | @Version: v1.0
 // +----------------------------------------------------------------------
+<<<<<<< HEAD
 // | @Desp: User Validate模块
+=======
+// | @Desp: Bace控制器模块
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
 // +----------------------------------------------------------------------
 namespace app\home\validate;
 
 use think\Validate;
+<<<<<<< HEAD
 use think\Db;
+=======
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
 
 class User extends Validate
 {
     protected $rule = [
+<<<<<<< HEAD
         'username'          => 'require|length:4,20|isRegister|alphaDash',
         'phone'             => 'require|regex:^((1[3,5,8][0-9])|(14[5,7])|(17[0,6,7,8])|(19[7]))\d{8}$|phoneIsRegister',
         'password'          => 'require|length:8,16',
@@ -60,4 +68,12 @@ class User extends Validate
             return false;
         }
     }
+=======
+        'username'          => 'require|min',
+        'phone'             => 'require',
+        'password'          => 'require',
+        'confirm_password'  => 'require'
+    ];
+    protected $msg  = [];
+>>>>>>> 729c57105f77bfb5024a3d8660591ccdf57386ce
 }
